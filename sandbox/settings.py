@@ -12,16 +12,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-import dotenv
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-dotenv_path = os.path.join(BASE_DIR, '.env')
-if os.path.isfile(dotenv_path):
-    dotenv.read_dotenv(dotenv_path)
-
 SECRET_KEY = os.getenv('SECRET_KEY', 'development_secret_key')
-
-from .static import LibSassCompiler
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -34,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -43,9 +35,9 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'polls',
     'pipeline',
+    'django.contrib.staticfiles',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -79,7 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sandbox.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
@@ -90,39 +81,32 @@ DATABASES = {
     }
 }
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 PIPELINE_CSS_COMPRESSOR=None
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'collected_static'),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+STATCFILES_DIRS = [ os.path.join(BASE_DIR, 'static') ]
 
-STATICFILES_FINDERS = (
+STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'pipeline.finders.PipelineFinder',
-)
+]
 
-PIPELINE_COMPILERS = (
+PIPELINE_COMPILERS = [
     #'sandbox.static.LibSassCompiler',
     'pipeline.compilers.sass.SASSCompiler',
-)
+]
 
 PIPELINE_CSS = {
     'application': {
