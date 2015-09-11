@@ -95,7 +95,7 @@ STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 PIPELINE_CSS_COMPRESSOR=None
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
-STATCFILES_DIRS = [ os.path.join(BASE_DIR, 'static') ]
+STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static') ]
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
