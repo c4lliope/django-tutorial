@@ -1,5 +1,8 @@
 from django.conf.urls import url
 
+from django.conf import settings
+from django.conf.urls.static import static
+
 from . import views
 
 urlpatterns = [
@@ -8,3 +11,5 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/results$', views.ResultsView.as_view(), name='results'),
     url(r'^(?P<question_id>\d+)/vote$', views.vote, name='vote'),
 ]
+
+print urlpatterns

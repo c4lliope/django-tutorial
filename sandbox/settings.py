@@ -12,9 +12,16 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
+import dotenv
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+dotenv_path = os.path.join(BASE_DIR, '.env')
+if os.path.isfile(dotenv_path):
+    dotenv.read_dotenv(dotenv_path)
+
+SECRET_KEY = os.getenv('SECRET_KEY', 'development_secret_key')
+
+from .static import LibSassCompiler
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
@@ -37,7 +44,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'polls'
+    'polls',
+    'pipeline',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -98,6 +106,27 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
-
 STATIC_URL = '/static/'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
+PIPELINE_CSS_COMPRESSOR=None
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'collected_static'),)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder',
+)
+
+PIPELINE_COMPILERS = (
+    #'sandbox.static.LibSassCompiler',
+    'pipeline.compilers.sass.SASSCompiler',
+)
+
+PIPELINE_CSS = {
+    'application': {
+        'source_filenames': ('css/application.scss',),
+        'output_filename': 'css/application.css',
+    },
+}

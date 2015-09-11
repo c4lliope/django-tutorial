@@ -1,2 +1,5 @@
 Django==1.8.3
 psycopg2
+django-pipeline
+django-dotenv
+libsass

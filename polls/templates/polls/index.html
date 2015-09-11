@@ -1,3 +1,8 @@
+{% load pipeline %}
+{% load static %}
+{% load staticfiles %}
+{% stylesheet 'application' %}
+
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
